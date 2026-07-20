@@ -1,8 +1,8 @@
 import AlbumFrame from './AlbumFrame';
 import albumImage from '../assets/test-album.jpg';
-import { getLeftWallPosition } from './layout';
+import { getWallPosition } from './layout';
 
-const albums = Array.from({ length: 6 }, (_, index) => ({
+const albums = Array.from({ length: 12 }, (_, index) => ({
   id: index,
   image: albumImage,
 }));
@@ -10,14 +10,19 @@ const albums = Array.from({ length: 6 }, (_, index) => ({
 export default function Gallery() {
   return (
     <>
-      {albums.map((album, index) => (
-        <AlbumFrame
-          key={album.id}
-          image={album.image}
-          position={getLeftWallPosition(index)}
-          rotation={[0, Math.PI / 2, 0]}
-        />
-      ))}
+      {albums.map((album, index) => {
+        const { position, rotation } =
+          getWallPosition(index);
+
+        return (
+          <AlbumFrame
+            key={album.id}
+            image={album.image}
+            position={position}
+            rotation={rotation}
+          />
+        );
+      })}
     </>
   );
 }
