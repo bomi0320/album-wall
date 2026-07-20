@@ -1,11 +1,18 @@
 import { useTexture } from '@react-three/drei';
 
+type AlbumFrameProps = {
+  image: string;
+  position: [number, number, number];
+  rotation?: [number, number, number];
+};
+
 export default function AlbumFrame({
   image,
   position,
   rotation = [0, 0, 0],
 }: AlbumFrameProps) {
   const texture = useTexture(image);
+
   return (
     <group
       position={position}
@@ -31,9 +38,3 @@ export default function AlbumFrame({
     </group>
   );
 }
-
-type AlbumFrameProps = {
-  image: string;
-  position: [number, number, number];
-  rotation?: [number, number, number];
-};
