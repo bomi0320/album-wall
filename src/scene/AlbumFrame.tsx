@@ -14,12 +14,18 @@ export default function AlbumFrame({
       {/* Frame */}
       <mesh>
         <boxGeometry args={[1.2, 1.2, 0.08]} />
-        <meshStandardMaterial color="#4e342e" />
+        <meshStandardMaterial color="#8b6a4e" />
+      </mesh>
+
+      {/* Mat */}
+      <mesh position={[0, 0, 0.045]}>
+        <planeGeometry args={[1.08, 1.08]} />
+        <meshBasicMaterial color="#f8f8f8" />
       </mesh>
 
       {/* Album Cover */}
       <mesh position={[0, 0, 0.05]}>
-        <planeGeometry args={[1, 1]} />
+        <planeGeometry args={[0.92, 0.92]} />
         <meshBasicMaterial map={texture} />
       </mesh>
     </group>
