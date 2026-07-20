@@ -6,8 +6,8 @@ function App() {
   return (
     <Canvas
       camera={{
-        position: [0, 3, 10],
-        fov: 60,
+        position: [10, 5, 10],
+        fov: 65,
       }}
     >
       <Room />
