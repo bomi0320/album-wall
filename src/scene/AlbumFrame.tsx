@@ -19,19 +19,30 @@ export default function AlbumFrame({
       rotation={rotation}
     >
       {/* Frame */}
-      <mesh>
+      <mesh
+        castShadow
+        receiveShadow
+      >
         <boxGeometry args={[1.2, 1.2, 0.08]} />
         <meshStandardMaterial color="#8b6a4e" />
       </mesh>
 
       {/* Mat */}
-      <mesh position={[0, 0, 0.045]}>
+      <mesh
+        castShadow
+        receiveShadow
+        position={[0, 0, 0.045]}
+      >
         <planeGeometry args={[1.08, 1.08]} />
         <meshBasicMaterial color="#f8f8f8" />
       </mesh>
 
       {/* Album Cover */}
-      <mesh position={[0, 0, 0.05]}>
+      <mesh
+        castShadow
+        receiveShadow
+        position={[0, 0, 0.05]}
+      >
         <planeGeometry args={[0.92, 0.92]} />
         <meshBasicMaterial map={texture} />
       </mesh>

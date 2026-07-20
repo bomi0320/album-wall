@@ -6,8 +6,8 @@ const FRAMES_PER_WALL = ROWS * COLUMNS;
 const FRAME_HORIZONTAL_GAP = 2;
 const FRAME_VERTICAL_GAP = 1.5;
 
-const LEFT_WALL_X = -5.92;
-const RIGHT_WALL_Z = -5.92;
+const LEFT_WALL_X = -5.84;
+const RIGHT_WALL_Z = -5.84;
 
 const START_X = -4;
 const START_Y = 3;

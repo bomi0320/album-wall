@@ -5,6 +5,7 @@ import './App.css';
 function App() {
   return (
     <Canvas
+      shadows
       camera={{
         position: [10, 5, 10],
         fov: 65,
