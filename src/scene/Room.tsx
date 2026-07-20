@@ -1,18 +1,17 @@
 import { OrbitControls } from '@react-three/drei';
+import Lights from './Lights';
+import Floor from './Floor';
+import Walls from './Walls';
 
 export default function Room() {
   return (
     <>
-      {/* 조명 */}
-      <ambientLight intensity={2} />
+      <Lights />
 
-      {/* 큐브 */}
-      <mesh>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color="orange" />
-      </mesh>
+      <Floor />
 
-      {/* 마우스 조작 */}
+      <Walls />
+
       <OrbitControls />
     </>
   );
