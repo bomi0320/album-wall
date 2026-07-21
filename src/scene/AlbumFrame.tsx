@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTexture } from '@react-three/drei';
 
 type AlbumFrameProps = {
@@ -11,12 +12,17 @@ export default function AlbumFrame({
   position,
   rotation = [0, 0, 0],
 }: AlbumFrameProps) {
+  const [isHovered, setIsHovered] = useState(false);
+
   const texture = useTexture(image);
 
   return (
     <group
       position={position}
       rotation={rotation}
+      scale={isHovered ? 1.1 : 1}
+      onPointerOver={() => setIsHovered(true)}
+      onPointerOut={() => setIsHovered(false)}
     >
       {/* Frame */}
       <mesh
