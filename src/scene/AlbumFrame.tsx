@@ -5,12 +5,17 @@ type AlbumFrameProps = {
   image: string;
   position: [number, number, number];
   rotation?: [number, number, number];
+
+  selected: boolean;
+  onClick: () => void;
 };
 
 export default function AlbumFrame({
   image,
   position,
   rotation = [0, 0, 0],
+  selected,
+  onClick,
 }: AlbumFrameProps) {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -20,9 +25,10 @@ export default function AlbumFrame({
     <group
       position={position}
       rotation={rotation}
-      scale={isHovered ? 1.1 : 1}
+      scale={selected ? 1.15 : isHovered ? 1.1 : 1}
       onPointerOver={() => setIsHovered(true)}
       onPointerOut={() => setIsHovered(false)}
+      onClick={onClick}
     >
       {/* Frame */}
       <mesh
