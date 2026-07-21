@@ -1,4 +1,30 @@
+html,
+body,
 #root {
   width: 100%;
   height: 100%;
+  margin: 0;
+}
+
+.app {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.canvas-container {
+  flex: 1;
+}
+
+.album-panel {
+  width: 320px;
+  padding: 24px;
+  background: #f8f8f8;
+  border-left: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+.album-panel img {
+  width: 100%;
+  border-radius: 8px;
 }

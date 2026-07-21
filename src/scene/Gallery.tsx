@@ -1,18 +1,37 @@
 import AlbumFrame from './AlbumFrame';
 import albumImage from '../assets/test-album.jpg';
 import { getWallPosition } from './layout';
-import { useState } from 'react';
 
-const albums = Array.from({ length: 12 }, (_, index) => ({
-  id: index,
-  image: albumImage,
-}));
+type Album = {
+  id: number;
+  title: string;
+  artist: string;
+  year: number;
+  image: string;
+};
 
-export default function Gallery() {
-  const [selectedAlbumId, setSelectedAlbumId] = useState<
-    number | null
-  >(null);
+const albums: Album[] = Array.from(
+  { length: 12 },
+  (_, index) => ({
+    id: index,
+    title: `Album ${index + 1}`,
+    artist: `Artist ${index + 1}`,
+    year: 2025,
+    image: albumImage,
+  }),
+);
 
+type GalleryProps = {
+  selectedAlbum: Album | null;
+  setSelectedAlbum: React.Dispatch<
+    React.SetStateAction<Album | null>
+  >;
+};
+
+export default function Gallery({
+  selectedAlbum,
+  setSelectedAlbum,
+}: GalleryProps) {
   return (
     <>
       {albums.map((album, index) => {
@@ -25,8 +44,8 @@ export default function Gallery() {
             image={album.image}
             position={position}
             rotation={rotation}
-            selected={album.id === selectedAlbumId}
-            onClick={() => setSelectedAlbumId(album.id)}
+            selected={selectedAlbum?.id === album.id}
+            onClick={() => setSelectedAlbum(album)}
           />
         );
       })}
