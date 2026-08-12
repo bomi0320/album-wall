@@ -48,3 +48,46 @@ button {
   padding: 10px 14px;
   cursor: pointer;
 }
+
+.search-results {
+  position: fixed;
+  top: 80px;
+  left: 20px;
+  z-index: 10;
+
+  display: grid;
+  grid-template-columns: repeat(3, 180px);
+  gap: 16px;
+
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.search-result-card {
+  padding: 10px;
+
+  background: white;
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+.search-result-card img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.search-result-card h3 {
+  margin: 8px 0 4px;
+  font-size: 14px;
+}
+
+.search-result-card p {
+  margin: 0;
+  font-size: 13px;
+}
+
+.search-result-card span {
+  font-size: 12px;
+}

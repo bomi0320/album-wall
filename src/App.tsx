@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Room from './scene/Room';
 import AlbumInfoPanel from './scene/AlbumInfoPanel';
 import SearchBar from './components/SearchBar/SearchBar';
+import SearchResults from './components/SearchResults/SearchResults';
 
 import { searchAlbums } from './api/albums';
 import type { Album } from './types/album';
@@ -32,6 +33,8 @@ function App() {
     <div className="app">
       <div className="canvas-container">
         <SearchBar onSearch={handleSearch} />
+
+        <SearchResults albums={albums} />
 
         <Canvas
           shadows
