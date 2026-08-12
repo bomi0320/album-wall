@@ -1,0 +1,37 @@
+import { useState } from 'react';
+
+type SearchBarProps = {
+  onSearch: (query: string) => void;
+};
+
+export default function SearchBar({
+  onSearch,
+}: SearchBarProps) {
+  const [query, setQuery] = useState('');
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const trimmedQuery = query.trim();
+
+    if (!trimmedQuery) {
+      return;
+    }
+
+    onSearch(trimmedQuery);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        value={query}
+        onChange={(event) => {
+          setQuery(event.target.value);
+        }}
+        placeholder="앨범 또는 아티스트 검색"
+      />
+      <button type="submit">검색</button>
+    </form>
+  );
+}
