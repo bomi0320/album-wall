@@ -3,7 +3,9 @@ import { useState } from 'react';
 
 import Room from './scene/Room';
 import AlbumInfoPanel from './scene/AlbumInfoPanel';
+import SearchBar from './components/SearchBar/SearchBar';
 
+import { searchAlbums } from './api/albums';
 import type { Album } from './types/album';
 
 import './App.css';
@@ -12,9 +14,25 @@ function App() {
   const [selectedAlbum, setSelectedAlbum] =
     useState<Album | null>(null);
 
+  const [albums, setAlbums] = useState<Album[]>([]);
+
+  const handleSearch = async (query: string) => {
+    try {
+      const results = await searchAlbums(query);
+
+      setAlbums(results);
+
+      console.log(results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="app">
       <div className="canvas-container">
+        <SearchBar onSearch={handleSearch} />
+
         <Canvas
           shadows
           camera={{
