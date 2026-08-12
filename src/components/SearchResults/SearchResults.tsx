@@ -2,10 +2,12 @@ import type { Album } from '../../types/album';
 
 type SearchResultsProps = {
   albums: Album[];
+  onSelect: (album: Album) => void;
 };
 
 export default function SearchResults({
   albums,
+  onSelect,
 }: SearchResultsProps) {
   if (albums.length === 0) {
     return null;
@@ -14,9 +16,10 @@ export default function SearchResults({
   return (
     <div className="search-results">
       {albums.map((album) => (
-        <div
+        <button
           key={album.id}
           className="search-result-card"
+          onClick={() => onSelect(album)}
         >
           <img
             src={album.image}
@@ -27,7 +30,7 @@ export default function SearchResults({
             <p>{album.artist}</p>
             <span>{album.year}</span>
           </div>
-        </div>
+        </button>
       ))}
     </div>
   );

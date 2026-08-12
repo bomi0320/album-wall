@@ -1,36 +1,15 @@
 import AlbumFrame from './AlbumFrame';
-import albumImage from '../assets/test-album.jpg';
 import { getWallPosition } from './layout';
-
-type Album = {
-  id: number;
-  title: string;
-  artist: string;
-  year: number;
-  image: string;
-};
-
-const albums: Album[] = Array.from(
-  { length: 12 },
-  (_, index) => ({
-    id: index,
-    title: `Album ${index + 1}`,
-    artist: `Artist ${index + 1}`,
-    year: 2025,
-    image: albumImage,
-  }),
-);
+import type { Album } from '../types/album';
 
 type GalleryProps = {
-  selectedAlbum: Album | null;
-  setSelectedAlbum: React.Dispatch<
-    React.SetStateAction<Album | null>
-  >;
+  albums: Album[];
+  onSelect: (album: Album) => void;
 };
 
 export default function Gallery({
-  selectedAlbum,
-  setSelectedAlbum,
+  albums,
+  onSelect,
 }: GalleryProps) {
   return (
     <>
@@ -44,8 +23,7 @@ export default function Gallery({
             image={album.image}
             position={position}
             rotation={rotation}
-            selected={selectedAlbum?.id === album.id}
-            onClick={() => setSelectedAlbum(album)}
+            onSelect={() => onSelect(album)}
           />
         );
       })}
