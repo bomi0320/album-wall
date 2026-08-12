@@ -51,7 +51,7 @@ app.get('/api/albums', async (req, res) => {
       country: 'KR', // 우선 kr로 설정
       media: 'music', // 음악 검색
       entity: 'album', // 앨범만 검색
-      limit: '10', // 검색 결과 최대 10개만 가져오기
+      limit: '12', // 검색 결과 최대 12개만 가져오기
     });
 
     // iTunes 서버에 요청
