@@ -4,4 +4,5 @@ export type Album = {
   artist: string;
   year: number;
   image: string;
+  appleMusicUrl: string;
 };
