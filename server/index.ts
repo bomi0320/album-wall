@@ -1,6 +1,29 @@
 import express from 'express';
 import cors from 'cors';
 
+type ITunesAlbum = {
+  collectionId: number;
+  collectionName: string;
+  artistName: string;
+  releaseDate: string;
+  artworkUrl100: string;
+  collectionViewUrl: string;
+};
+
+type ITunesSearchResponse = {
+  resultCount: number;
+  results: ITunesAlbum[];
+};
+
+type Album = {
+  id: number;
+  title: string;
+  artist: string;
+  year: number;
+  image: string;
+  appleMusicUrl: string;
+};
+
 const app = express(); // 서버
 const PORT = 3001;
 
@@ -36,9 +59,22 @@ app.get('/api/albums', async (req, res) => {
       `https://itunes.apple.com/search?${params.toString()}`,
     );
 
-    const data = await response.json();
+    const data =
+      (await response.json()) as ITunesSearchResponse;
 
-    res.json(data);
+    const albums: Album[] = data.results.map((item) => ({
+      id: item.collectionId,
+      title: item.collectionName,
+      artist: item.artistName,
+      year: new Date(item.releaseDate).getFullYear(),
+      image: item.artworkUrl100.replace(
+        /\/\d+x\d+bb\.jpg$/,
+        '/1000x1000bb.jpg',
+      ),
+      appleMusicUrl: item.collectionViewUrl,
+    }));
+
+    res.json(albums);
   } catch (error) {
     console.log(error);
 
