@@ -2,6 +2,7 @@ const ROWS = 2;
 const COLUMNS = 3;
 
 const FRAMES_PER_WALL = ROWS * COLUMNS;
+export const MAX_ALBUMS = FRAMES_PER_WALL * 2;
 
 const FRAME_HORIZONTAL_GAP = 2;
 const FRAME_VERTICAL_GAP = 1.5;

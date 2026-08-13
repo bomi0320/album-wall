@@ -9,6 +9,8 @@ import SearchResults from './components/SearchResults/SearchResults';
 import { searchAlbums } from './api/albums';
 import type { Album } from './types/album';
 
+import { MAX_ALBUMS } from './scene/layout';
+
 import './App.css';
 
 function App() {
@@ -39,6 +41,11 @@ function App() {
       );
 
       if (alreadyExists) {
+        return prev;
+      }
+
+      // 앨범 수 제한
+      if (prev.length >= MAX_ALBUMS) {
         return prev;
       }
 
