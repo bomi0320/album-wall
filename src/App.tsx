@@ -32,7 +32,19 @@ function App() {
   };
 
   const handleSelectAlbum = (album: Album) => {
-    setSelectedAlbums((prev) => [...prev, album]); // 앨범을 벽에 추가
+    setSelectedAlbums((prev) => {
+      // 같은 앨범 중복 추가 방지
+      const alreadyExists = prev.some(
+        (item) => item.id === album.id,
+      );
+
+      if (alreadyExists) {
+        return prev;
+      }
+
+      return [...prev, album]; // 앨범을 벽에 추가
+    });
+
     setSelectedAlbum(album); // 그 앨범을 정보 패널에서 보여주기
   };
 
