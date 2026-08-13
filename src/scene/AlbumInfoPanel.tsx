@@ -43,6 +43,15 @@ export default function AlbumInfoPanel({
           >
             앨범 삭제
           </button>
+
+          <a
+            className="apple-music-link"
+            href={album.appleMusicUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Apple Music에서 보기
+          </a>
         </>
       )}
     </div>
