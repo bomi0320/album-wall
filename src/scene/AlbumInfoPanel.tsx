@@ -1,5 +1,7 @@
 import type { Album } from '../types/album';
 
+import './AlbumInfoPanel.css';
+
 type AlbumInfoPanelProps = {
   album: Album | null;
   onDelete: (albumId: number) => void;
@@ -14,13 +16,15 @@ export default function AlbumInfoPanel({
       <h2>Album Information</h2>
 
       {!album ? (
-        <p>엘범을 선택해주세요.</p>
+        <p className="album-panel-empty">
+          앨범을 선택해주세요.
+        </p>
       ) : (
         <>
           <img
+            className="album-panel-image"
             src={album.image}
             alt={album.title}
-            width={180}
           />
           <p>
             <strong>Title</strong>
@@ -38,6 +42,7 @@ export default function AlbumInfoPanel({
           <p>{album.year}</p>
 
           <button
+            className="delete-album-button"
             type="button"
             onClick={() => onDelete(album.id)}
           >
