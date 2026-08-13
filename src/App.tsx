@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Room from './scene/Room';
 import AlbumInfoPanel from './scene/AlbumInfoPanel';
@@ -18,7 +18,39 @@ function App() {
 
   const [selectedAlbums, setSelectedAlbums] = useState<
     Album[]
-  >([]);
+  >(() => {
+    const savedAlbums = localStorage.getItem(
+      'selectedAlbums',
+    );
+
+    if (!savedAlbums) {
+      return [];
+    }
+
+    try {
+      const parsedAlbums = JSON.parse(savedAlbums);
+
+      if (!Array.isArray(parsedAlbums)) {
+        return [];
+      }
+
+      return parsedAlbums as Album[];
+    } catch (error) {
+      console.error(
+        '저장된 앨범 데이터를 불러오지 못했습니다.',
+        error,
+      );
+
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem(
+      'selectedAlbums',
+      JSON.stringify(selectedAlbums),
+    );
+  }, [selectedAlbums]);
 
   const [selectedAlbum, setSelectedAlbum] =
     useState<Album | null>(null);
