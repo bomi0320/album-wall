@@ -22,7 +22,10 @@ export default function SearchBar({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      className="search-bar"
+      onSubmit={handleSubmit}
+    >
       <input
         type="text"
         value={query}

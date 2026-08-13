@@ -15,23 +15,28 @@ export default function SearchResults({
 
   return (
     <div className="search-results">
-      {albums.map((album) => (
-        <button
-          key={album.id}
-          className="search-result-card"
-          onClick={() => onSelect(album)}
-        >
-          <img
-            src={album.image}
-            alt={`${album.artist} - ${album.title}`}
-          />
-          <div>
-            <h3>{album.title}</h3>
-            <p>{album.artist}</p>
-            <span>{album.year}</span>
-          </div>
-        </button>
-      ))}
+      <p className="search-results-title">Search Results</p>
+
+      <div className="search-results-list">
+        {albums.map((album) => (
+          <button
+            key={album.id}
+            className="search-result-card"
+            onClick={() => onSelect(album)}
+          >
+            <img
+              src={album.image}
+              alt={`${album.artist} - ${album.title}`}
+            />
+
+            <div className="search-result-info">
+              <h3>{album.title}</h3>
+              <p>{album.artist}</p>
+              <span>{album.year}</span>
+            </div>
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
