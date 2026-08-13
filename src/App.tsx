@@ -87,6 +87,14 @@ function App() {
     setSelectedAlbum(album); // 그 앨범을 정보 패널에서 보여주기
   };
 
+  const handleDeleteAlbum = (albumId: number) => {
+    setSelectedAlbums((prev) =>
+      prev.filter((album) => album.id !== albumId),
+    );
+
+    setSelectedAlbum(null);
+  };
+
   return (
     <div className="app">
       <div className="canvas-container">
@@ -111,7 +119,10 @@ function App() {
         </Canvas>
       </div>
 
-      <AlbumInfoPanel album={selectedAlbum} />
+      <AlbumInfoPanel
+        album={selectedAlbum}
+        onDelete={handleDeleteAlbum}
+      />
     </div>
   );
 }

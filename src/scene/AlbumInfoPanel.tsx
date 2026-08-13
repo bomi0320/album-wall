@@ -2,10 +2,12 @@ import type { Album } from '../types/album';
 
 type AlbumInfoPanelProps = {
   album: Album | null;
+  onDelete: (albumId: number) => void;
 };
 
 export default function AlbumInfoPanel({
   album,
+  onDelete,
 }: AlbumInfoPanelProps) {
   return (
     <div className="album-panel">
@@ -34,6 +36,13 @@ export default function AlbumInfoPanel({
             <strong>Year</strong>
           </p>
           <p>{album.year}</p>
+
+          <button
+            type="button"
+            onClick={() => onDelete(album.id)}
+          >
+            앨범 삭제
+          </button>
         </>
       )}
     </div>
