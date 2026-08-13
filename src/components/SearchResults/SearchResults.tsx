@@ -1,5 +1,7 @@
 import type { Album } from '../../types/album';
 
+import './SearchResults.css';
+
 type SearchResultsProps = {
   albums: Album[];
   onSelect: (album: Album) => void;
