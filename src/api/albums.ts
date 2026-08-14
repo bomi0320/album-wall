@@ -1,8 +1,13 @@
 import type { Album } from '../types/album';
 
-export const searchAlbums = async (
+type SearchAlbumsResponse = {
+  albums: Album[];
+  total: number;
+};
+
+export async function searchAlbums(
   query: string,
-): Promise<Album[]> => {
+): Promise<SearchAlbumsResponse> {
   const response = await fetch(
     `http://localhost:3001/api/albums?query=${encodeURIComponent(query)}`,
   );
@@ -11,7 +16,7 @@ export const searchAlbums = async (
     throw new Error('앨범 검색에 실패했습니다.');
   }
 
-  const data: Album[] = await response.json();
+  const data = await response.json();
 
   return data;
-};
+}

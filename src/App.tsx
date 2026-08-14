@@ -15,6 +15,9 @@ import './App.css';
 
 function App() {
   const [albums, setAlbums] = useState<Album[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalResults, setTotalResults] = useState(0);
+  const ALBUMS_PER_PAGE = 12;
 
   const [selectedAlbums, setSelectedAlbums] = useState<
     Album[]
@@ -55,11 +58,30 @@ function App() {
   const [selectedAlbum, setSelectedAlbum] =
     useState<Album | null>(null);
 
+  const totalPages = Math.ceil(
+    totalResults / ALBUMS_PER_PAGE,
+  );
+
+  const startIndex = (currentPage - 1) * ALBUMS_PER_PAGE;
+
+  const visibleAlbums = albums.slice(
+    startIndex,
+    startIndex + ALBUMS_PER_PAGE,
+  );
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   const handleSearch = async (query: string) => {
     try {
-      const results = await searchAlbums(query);
+      const result = await searchAlbums(query);
 
-      setAlbums(results);
+      setAlbums(result.albums);
+      setTotalResults(result.total);
+      setCurrentPage(1);
+
+      console.log(result);
     } catch (error) {
       console.log(error);
     }
@@ -101,8 +123,11 @@ function App() {
         <SearchBar onSearch={handleSearch} />
 
         <SearchResults
-          albums={albums}
+          albums={visibleAlbums}
           onSelect={handleSelectAlbum}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
         />
 
         <Canvas

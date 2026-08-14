@@ -45,13 +45,15 @@ app.get('/api/albums', async (req, res) => {
     });
   }
 
+  const limit = 200;
+
   try {
     const params = new URLSearchParams({
       term: query, // 사용자가 입력한 검색어
       country: 'KR', // 우선 kr로 설정
       media: 'music', // 음악 검색
       entity: 'album', // 앨범만 검색
-      limit: '12', // 검색 결과 최대 12개만 가져오기
+      limit: String(limit),
     });
 
     // iTunes 서버에 요청
@@ -74,7 +76,10 @@ app.get('/api/albums', async (req, res) => {
       appleMusicUrl: item.collectionViewUrl,
     }));
 
-    res.json(albums);
+    res.json({
+      albums,
+      total: data.resultCount,
+    });
   } catch (error) {
     console.log(error);
 
