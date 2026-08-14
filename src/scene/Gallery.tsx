@@ -3,7 +3,7 @@ import { getWallPosition, MAX_ALBUMS } from './layout';
 import type { Album } from '../types/album';
 
 type GalleryProps = {
-  albums: Album[];
+  albums: (Album | null)[];
   onSelect: (album: Album) => void;
 };
 

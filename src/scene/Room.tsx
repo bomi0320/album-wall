@@ -8,7 +8,7 @@ import Gallery from './Gallery';
 import type { Album } from '../types/album';
 
 type RoomProps = {
-  albums: Album[];
+  albums: (Album | null)[];
   onSelect: (album: Album) => void;
 };
 

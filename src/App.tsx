@@ -20,7 +20,7 @@ function App() {
   const ALBUMS_PER_PAGE = 12;
 
   const [selectedAlbums, setSelectedAlbums] = useState<
-    Album[]
+    (Album | null)[]
   >(() => {
     const savedAlbums = localStorage.getItem(
       'selectedAlbums',
@@ -37,7 +37,12 @@ function App() {
         return [];
       }
 
-      return parsedAlbums as Album[];
+      return [
+        ...parsedAlbums,
+        ...Array(MAX_ALBUMS - parsedAlbums.length).fill(
+          null,
+        ),
+      ].slice(0, MAX_ALBUMS) as (Album | null)[];
     } catch (error) {
       console.error(
         '저장된 앨범 데이터를 불러오지 못했습니다.',
@@ -91,7 +96,7 @@ function App() {
     setSelectedAlbums((prev) => {
       // 같은 앨범 중복 추가 방지
       const alreadyExists = prev.some(
-        (item) => item.id === album.id,
+        (item) => item?.id === album.id,
       );
 
       if (alreadyExists) {
@@ -111,7 +116,9 @@ function App() {
 
   const handleDeleteAlbum = (albumId: number) => {
     setSelectedAlbums((prev) =>
-      prev.filter((album) => album.id !== albumId),
+      prev.map((album) =>
+        album?.id === albumId ? null : album,
+      ),
     );
 
     setSelectedAlbum(null);
