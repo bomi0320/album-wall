@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTexture } from '@react-three/drei';
 
 type AlbumFrameProps = {
-  image: string;
+  image?: string;
   position: [number, number, number];
   rotation?: [number, number, number];
   onSelect: () => void;
@@ -15,8 +15,6 @@ export default function AlbumFrame({
   onSelect,
 }: AlbumFrameProps) {
   const [isHovered, setIsHovered] = useState(false);
-
-  const texture = useTexture(image);
 
   return (
     <group
@@ -47,14 +45,22 @@ export default function AlbumFrame({
       </mesh>
 
       {/* Album Cover */}
-      <mesh
-        castShadow
-        receiveShadow
-        position={[0, 0, 0.05]}
-      >
-        <planeGeometry args={[0.92, 0.92]} />
-        <meshBasicMaterial map={texture} />
-      </mesh>
+      {image && <AlbumCover image={image} />}
     </group>
+  );
+}
+
+function AlbumCover({ image }: { image: string }) {
+  const texture = useTexture(image);
+
+  return (
+    <mesh
+      castShadow
+      receiveShadow
+      position={[0, 0, 0.05]}
+    >
+      <planeGeometry args={[0.92, 0.92]} />
+      <meshBasicMaterial map={texture} />
+    </mesh>
   );
 }

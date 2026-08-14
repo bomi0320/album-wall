@@ -1,5 +1,5 @@
 import AlbumFrame from './AlbumFrame';
-import { getWallPosition } from './layout';
+import { getWallPosition, MAX_ALBUMS } from './layout';
 import type { Album } from '../types/album';
 
 type GalleryProps = {
@@ -13,17 +13,21 @@ export default function Gallery({
 }: GalleryProps) {
   return (
     <>
-      {albums.map((album, index) => {
+      {Array.from({ length: MAX_ALBUMS }, (_, index) => {
+        const album = albums[index];
+
         const { position, rotation } =
           getWallPosition(index);
 
         return (
           <AlbumFrame
-            key={album.id}
-            image={album.image}
+            key={album?.id ?? `empty-${index}`}
+            image={album?.image}
             position={position}
             rotation={rotation}
-            onSelect={() => onSelect(album)}
+            onSelect={
+              album ? () => onSelect(album) : () => {}
+            }
           />
         );
       })}
