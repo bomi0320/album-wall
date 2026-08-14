@@ -6,6 +6,7 @@ type AlbumFrameProps = {
   position: [number, number, number];
   rotation?: [number, number, number];
   onSelect: () => void;
+  isSelected?: boolean;
 };
 
 export default function AlbumFrame({
@@ -13,6 +14,7 @@ export default function AlbumFrame({
   position,
   rotation = [0, 0, 0],
   onSelect,
+  isSelected = false,
 }: AlbumFrameProps) {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -30,7 +32,9 @@ export default function AlbumFrame({
         receiveShadow
       >
         <boxGeometry args={[1.2, 1.2, 0.08]} />
-        <meshStandardMaterial color="#8b6a4e" />
+        <meshStandardMaterial
+          color={isSelected ? '#d88cff' : '#8b6a4e'}
+        />
       </mesh>
 
       {/* Mat */}

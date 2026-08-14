@@ -63,6 +63,9 @@ function App() {
   const [selectedAlbum, setSelectedAlbum] =
     useState<Album | null>(null);
 
+  const [selectedSlotIndex, setSelectedSlotIndex] =
+    useState<number | null>(null);
+
   const totalPages = Math.ceil(
     totalResults / ALBUMS_PER_PAGE,
   );
@@ -90,6 +93,10 @@ function App() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleSelectSlot = (index: number) => {
+    setSelectedSlotIndex(index);
   };
 
   const handleSelectAlbum = (album: Album) => {
@@ -147,6 +154,8 @@ function App() {
           <Room
             albums={selectedAlbums}
             onSelect={setSelectedAlbum}
+            selectedSlotIndex={selectedSlotIndex}
+            onSelectSlot={handleSelectSlot}
           />
         </Canvas>
       </div>

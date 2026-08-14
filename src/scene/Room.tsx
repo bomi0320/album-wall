@@ -10,11 +10,15 @@ import type { Album } from '../types/album';
 type RoomProps = {
   albums: (Album | null)[];
   onSelect: (album: Album) => void;
+  selectedSlotIndex: number | null;
+  onSelectSlot: (index: number) => void;
 };
 
 export default function Room({
   albums,
   onSelect,
+  selectedSlotIndex,
+  onSelectSlot,
 }: RoomProps) {
   return (
     <>
@@ -27,6 +31,8 @@ export default function Room({
       <Gallery
         albums={albums}
         onSelect={onSelect}
+        selectedSlotIndex={selectedSlotIndex}
+        onSelectSlot={onSelectSlot}
       />
 
       <OrbitControls />

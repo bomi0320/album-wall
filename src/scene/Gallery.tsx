@@ -5,11 +5,15 @@ import type { Album } from '../types/album';
 type GalleryProps = {
   albums: (Album | null)[];
   onSelect: (album: Album) => void;
+  selectedSlotIndex: number | null;
+  onSelectSlot: (index: number) => void;
 };
 
 export default function Gallery({
   albums,
   onSelect,
+  selectedSlotIndex,
+  onSelectSlot,
 }: GalleryProps) {
   return (
     <>
@@ -26,8 +30,11 @@ export default function Gallery({
             position={position}
             rotation={rotation}
             onSelect={
-              album ? () => onSelect(album) : () => {}
+              album
+                ? () => onSelect(album)
+                : () => onSelectSlot(index)
             }
+            isSelected={selectedSlotIndex === index}
           />
         );
       })}
