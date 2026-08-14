@@ -28,16 +28,33 @@ export default function Pagination({
       {Array.from({ length: totalPages }, (_, index) => {
         const page = index + 1;
 
-        return (
-          <button
-            type="button"
-            key={page}
-            className={page === currentPage ? 'active' : ''}
-            onClick={() => onPageChange(page)}
-          >
-            {page}
-          </button>
-        );
+        if (
+          page === 1 ||
+          page === totalPages ||
+          Math.abs(page - currentPage) <= 2
+        ) {
+          return (
+            <button
+              type="button"
+              key={page}
+              className={
+                page === currentPage ? 'active' : ''
+              }
+              onClick={() => onPageChange(page)}
+            >
+              {page}
+            </button>
+          );
+        }
+
+        if (
+          page === currentPage - 3 ||
+          page === currentPage + 3
+        ) {
+          return <span key={page}>...</span>;
+        }
+
+        return null;
       })}
 
       <button
