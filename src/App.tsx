@@ -110,30 +110,38 @@ function App() {
       return;
     }
 
-    setSelectedAlbums((prev) => {
-      // 빈 액자를 선택한 경우 -> 해당 위치에 앨범 넣기
-      if (selectedSlotIndex !== null) {
-        return prev.map((item, index) =>
+    // 선택한 빈 액자가 있는 경우
+    if (selectedSlotIndex !== null) {
+      setSelectedAlbums((prev) =>
+        prev.map((item, index) =>
           index === selectedSlotIndex ? album : item,
-        );
-      }
-
-      // 선택한 액자가 없는 경우 -> 기존 방식대로 빈 슬롯에 추가
-      const emptyIndex = prev.findIndex(
-        (item) => item === null,
+        ),
       );
 
-      if (emptyIndex !== -1) {
-        return prev.map((item, index) =>
-          index === emptyIndex ? album : item,
-        );
-      }
+      setSelectedAlbum(album);
+      setSelectedSlotIndex(null);
 
-      return prev;
-    });
+      return;
+    }
+
+    // 빈 액자 찾기
+    const emptyIndex = selectedAlbums.findIndex(
+      (item) => item === null,
+    );
+
+    // 빈 액자가 없는 경우
+    if (emptyIndex === -1) {
+      alert('앨범을 전시할 빈 액자가 없습니다.');
+      return;
+    }
+
+    setSelectedAlbums((prev) =>
+      prev.map((Item, index) =>
+        index === emptyIndex ? album : Item,
+      ),
+    );
 
     setSelectedAlbum(album);
-    setSelectedSlotIndex(null); // 앨범 넣은 뒤에는 선택된 빈 액자 상태 해제
   };
 
   const handleDeleteAlbum = (albumId: number) => {
