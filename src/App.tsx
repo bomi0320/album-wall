@@ -111,38 +111,21 @@ function App() {
       return;
     }
 
-    // 선택한 빈 액자가 있는 경우
-    if (selectedSlotIndex !== null) {
-      setSelectedAlbums((prev) =>
-        prev.map((item, index) =>
-          index === selectedSlotIndex ? album : item,
-        ),
-      );
-
-      setSelectedAlbum(album);
-      setSelectedSlotIndex(null);
-
+    // 액자를 선택하지 않은 경우
+    if (selectedSlotIndex === null) {
+      alert('액자를 먼저 선택하세요.');
       return;
     }
 
-    // 빈 액자 찾기
-    const emptyIndex = selectedAlbums.findIndex(
-      (item) => item === null,
-    );
-
-    // 빈 액자가 없는 경우
-    if (emptyIndex === -1) {
-      alert('앨범을 전시할 빈 액자가 없습니다.');
-      return;
-    }
-
+    // 선택한 액자에 앨범 추가
     setSelectedAlbums((prev) =>
-      prev.map((Item, index) =>
-        index === emptyIndex ? album : Item,
+      prev.map((item, index) =>
+        index === selectedSlotIndex ? album : item,
       ),
     );
 
     setSelectedAlbum(album);
+    setSelectedSlotIndex(null);
   };
 
   const handleDeleteAlbum = (albumId: number) => {
