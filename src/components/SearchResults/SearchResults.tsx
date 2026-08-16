@@ -5,6 +5,7 @@ import './SearchResults.css';
 
 type SearchResultsProps = {
   albums: Album[];
+  selectedAlbums: (Album | null)[];
   onSelect: (album: Album) => void;
   currentPage: number;
   totalPages: number;
@@ -13,6 +14,7 @@ type SearchResultsProps = {
 
 export default function SearchResults({
   albums,
+  selectedAlbums,
   onSelect,
   currentPage,
   totalPages,
@@ -27,26 +29,39 @@ export default function SearchResults({
       <p className="search-results-title">Search Results</p>
 
       <div className="search-results-list">
-        {albums.map((album) => (
-          <button
-            key={album.id}
-            className="search-result-card"
-            onClick={() => onSelect(album)}
-          >
-            <img
-              src={album.image}
-              alt={`${album.artist} - ${album.title}`}
-            />
+        {albums.map((album) => {
+          const isDisplayed = selectedAlbums.some(
+            (selectedAlbum) =>
+              selectedAlbum?.id === album.id,
+          );
 
-            <div className="search-result-info">
-              <h3>{album.title}</h3>
+          return (
+            <button
+              key={album.id}
+              className="search-result-card"
+              onClick={() => onSelect(album)}
+            >
+              <img
+                src={album.image}
+                alt={`${album.artist} - ${album.title}`}
+              />
 
-              <p>{album.artist}</p>
+              <div className="search-result-info">
+                <h3>{album.title}</h3>
 
-              <span>{album.year}</span>
-            </div>
-          </button>
-        ))}
+                <p>{album.artist}</p>
+
+                <span>{album.year}</span>
+
+                {isDisplayed && (
+                  <span className="already-displayed">
+                    이미 전시됨
+                  </span>
+                )}
+              </div>
+            </button>
+          );
+        })}
       </div>
 
       <Pagination

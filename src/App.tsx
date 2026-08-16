@@ -165,6 +165,7 @@ function App() {
 
         <SearchResults
           albums={visibleAlbums}
+          selectedAlbums={selectedAlbums}
           onSelect={handleSelectAlbum}
           currentPage={currentPage}
           totalPages={totalPages}

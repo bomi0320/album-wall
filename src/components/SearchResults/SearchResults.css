@@ -103,3 +103,13 @@
   font-size: 12px;
   color: #777;
 }
+
+.search-result-info .already-displayed {
+  display: block;
+
+  margin-top: 5px;
+
+  font-size: 11px;
+  color: #9a7bb5;
+  font-weight: 500;
+}
