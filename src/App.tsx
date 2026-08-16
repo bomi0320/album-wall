@@ -154,6 +154,21 @@ function App() {
     setSelectedAlbum(null);
   };
 
+  const handleDeleteAllAlbums = () => {
+    const confirmed = window.confirm(
+      '모든 앨범을 삭제하시겠습니까?',
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    setSelectedAlbums(Array(MAX_ALBUMS).fill(null));
+
+    setSelectedAlbum(null);
+    setSelectedSlotIndex(null);
+  };
+
   return (
     <div className="app">
       <div className="canvas-container">
@@ -186,6 +201,7 @@ function App() {
       <AlbumInfoPanel
         album={selectedAlbum}
         onDelete={handleDeleteAlbum}
+        onDeleteAll={handleDeleteAllAlbums}
       />
     </div>
   );

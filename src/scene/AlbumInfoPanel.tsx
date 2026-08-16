@@ -5,11 +5,13 @@ import './AlbumInfoPanel.css';
 type AlbumInfoPanelProps = {
   album: Album | null;
   onDelete: (albumId: number) => void;
+  onDeleteAll: () => void;
 };
 
 export default function AlbumInfoPanel({
   album,
   onDelete,
+  onDeleteAll,
 }: AlbumInfoPanelProps) {
   return (
     <div className="album-panel">
@@ -59,6 +61,14 @@ export default function AlbumInfoPanel({
           </a>
         </>
       )}
+
+      <button
+        className="delete-all-button"
+        type="button"
+        onClick={onDeleteAll}
+      >
+        전체 삭제
+      </button>
     </div>
   );
 }
