@@ -100,16 +100,17 @@ function App() {
   };
 
   const handleSelectAlbum = (album: Album) => {
+    // 같은 앨범 중복 추가 방지
+    const alreadyExists = selectedAlbums.some(
+      (item) => item?.id === album.id,
+    );
+
+    if (alreadyExists) {
+      alert('이미 추가된 앨범입니다.');
+      return;
+    }
+
     setSelectedAlbums((prev) => {
-      // 같은 앨범 중복 추가 방지
-      const alreadyExists = prev.some(
-        (item) => item?.id === album.id,
-      );
-
-      if (alreadyExists) {
-        return prev;
-      }
-
       // 빈 액자를 선택한 경우 -> 해당 위치에 앨범 넣기
       if (selectedSlotIndex !== null) {
         return prev.map((item, index) =>
