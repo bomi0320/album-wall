@@ -29,11 +29,14 @@ export default function Gallery({
             image={album?.image}
             position={position}
             rotation={rotation}
-            onSelect={
-              album
-                ? () => onSelect(album)
-                : () => onSelectSlot(index)
-            }
+            onSelect={() => {
+              if (album) {
+                onSelectSlot(index);
+                onSelect(album);
+              } else {
+                onSelectSlot(index);
+              }
+            }}
             isSelected={selectedSlotIndex === index}
           />
         );
