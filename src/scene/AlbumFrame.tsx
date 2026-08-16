@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useTexture } from '@react-three/drei';
 
 type AlbumFrameProps = {
@@ -49,7 +49,11 @@ export default function AlbumFrame({
       </mesh>
 
       {/* Album Cover */}
-      {image && <AlbumCover image={image} />}
+      {image && (
+        <Suspense fallback={null}>
+          <AlbumCover image={image} />
+        </Suspense>
+      )}
     </group>
   );
 }
