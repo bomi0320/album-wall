@@ -129,6 +129,10 @@ function App() {
   };
 
   const handleDeleteAlbum = (albumId: number) => {
+    const deletedSlotIndex = selectedAlbums.findIndex(
+      (album) => album?.id === albumId,
+    );
+
     setSelectedAlbums((prev) =>
       prev.map((album) =>
         album?.id === albumId ? null : album,
@@ -136,6 +140,7 @@ function App() {
     );
 
     setSelectedAlbum(null);
+    setSelectedSlotIndex(deletedSlotIndex);
   };
 
   const handleDeleteAllAlbums = () => {
