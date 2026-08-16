@@ -97,6 +97,7 @@ function App() {
 
   const handleSelectSlot = (index: number) => {
     setSelectedSlotIndex(index);
+    setSelectedAlbum(null);
   };
 
   const handleSelectAlbum = (album: Album) => {
