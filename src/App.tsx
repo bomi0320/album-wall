@@ -1,6 +1,6 @@
 import { Canvas, useThree } from '@react-three/fiber';
 import { useState, useEffect } from 'react';
-import { WebGLRenderer } from 'three';
+import { WebGLRenderer, Scene, Camera } from 'three';
 
 import Room from './scene/Room';
 import AlbumInfoPanel from './scene/AlbumInfoPanel';
@@ -17,13 +17,17 @@ import './App.css';
 function GalleryCanvasCapture({
   onReady,
 }: {
-  onReady: (gl: WebGLRenderer) => void;
+  onReady: (
+    gl: WebGLRenderer,
+    scene: Scene,
+    camera: Camera,
+  ) => void;
 }) {
-  const { gl } = useThree();
+  const { gl, scene, camera } = useThree();
 
   useEffect(() => {
-    onReady(gl);
-  }, [gl, onReady]);
+    onReady(gl, scene, camera);
+  }, [gl, scene, camera, onReady]);
 
   return null;
 }
@@ -36,8 +40,11 @@ function App() {
   const [hasSearched, setHasSearched] = useState(false);
   const [isAlbumInfoOpen, setIsAlbumInfoOpen] =
     useState(true);
-  const [renderer, setRenderer] =
-    useState<WebGLRenderer | null>(null);
+  const [renderer, setRenderer] = useState<{
+    gl: WebGLRenderer;
+    scene: Scene;
+    camera: Camera;
+  } | null>(null);
 
   const ALBUMS_PER_PAGE = 12;
 
@@ -224,7 +231,11 @@ function App() {
             onSelectSlot={handleSelectSlot}
           />
 
-          <GalleryCanvasCapture onReady={setRenderer} />
+          <GalleryCanvasCapture
+            onReady={(gl, scene, camera) => {
+              setRenderer({ gl, scene, camera });
+            }}
+          />
         </Canvas>
 
         {renderer && (
@@ -232,12 +243,22 @@ function App() {
             type="button"
             className="save-gallery-button"
             onClick={() => {
-              const canvas = renderer.domElement;
+              const { gl, scene, camera } = renderer;
 
-              const image = canvas.toDataURL(
+              const originalPixelRatio = gl.getPixelRatio();
+
+              gl.setPixelRatio(2);
+
+              gl.render(scene, camera);
+
+              const image = gl.domElement.toDataURL(
                 'image/jpeg',
-                0.9,
+                0.95,
               );
+
+              gl.setPixelRatio(originalPixelRatio);
+
+              gl.render(scene, camera);
 
               const link = document.createElement('a');
               link.download = 'album-wall.jpg';
