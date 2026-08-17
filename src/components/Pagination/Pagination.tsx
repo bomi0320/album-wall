@@ -1,5 +1,3 @@
-import './Pagination.css';
-
 type PaginationProps = {
   currentPage: number;
   totalPages: number;
@@ -16,11 +14,26 @@ export default function Pagination({
   }
 
   return (
-    <div className="pagination">
+    <div
+      className="
+        mt-3 flex items-center justify-center gap-1
+        border-t border-gallery-border
+        pt-3
+      "
+    >
       <button
         type="button"
         disabled={currentPage === 1}
         onClick={() => onPageChange(currentPage - 1)}
+        className="
+          flex h-7 w-7 items-center justify-center
+          rounded-lg
+          text-sm text-text-secondary
+          transition-colors
+          hover:bg-primary-soft hover:text-text-primary
+          disabled:cursor-default
+          disabled:opacity-30
+        "
       >
         ‹
       </button>
@@ -37,10 +50,18 @@ export default function Pagination({
             <button
               type="button"
               key={page}
-              className={
-                page === currentPage ? 'active' : ''
-              }
               onClick={() => onPageChange(page)}
+              className={`
+                flex h-7 w-7 items-center justify-center
+                rounded-lg
+                text-xs
+                transition-colors
+                ${
+                  page === currentPage
+                    ? 'bg-primary text-white shadow-sm'
+                    : 'text-text-secondary hover:bg-primary-soft hover:text-text-primary'
+                }
+              `}
             >
               {page}
             </button>
@@ -51,7 +72,14 @@ export default function Pagination({
           page === currentPage - 3 ||
           page === currentPage + 3
         ) {
-          return <span key={page}>...</span>;
+          return (
+            <span
+              key={page}
+              className="px-1 text-xs text-text-muted"
+            >
+              ...
+            </span>
+          );
         }
 
         return null;
@@ -61,6 +89,15 @@ export default function Pagination({
         type="button"
         disabled={currentPage === totalPages}
         onClick={() => onPageChange(currentPage + 1)}
+        className="
+          flex h-7 w-7 items-center justify-center
+          rounded-lg
+          text-sm text-text-secondary
+          transition-colors
+          hover:bg-primary-soft hover:text-text-primary
+          disabled:cursor-default
+          disabled:opacity-30
+        "
       >
         ›
       </button>
