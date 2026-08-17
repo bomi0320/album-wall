@@ -54,7 +54,7 @@ input {
 
   overflow: hidden;
 
-  background: #f5f1eb;
+  background: var(--color-gallery-bg);
 }
 
 .canvas-container {
