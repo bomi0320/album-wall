@@ -241,7 +241,21 @@ function App() {
         {renderer && (
           <button
             type="button"
-            className="save-gallery-button"
+            className="
+              fixed right-6 top-6 z-30
+              rounded-xl
+              border border-gallery-border
+              bg-gallery-panel/95
+              px-4 py-2.5
+              text-sm font-medium
+              text-text-primary
+              shadow-gallery
+              backdrop-blur-md
+              transition-all duration-200
+              hover:bg-primary-soft
+              hover:text-text-primary
+              active:scale-95
+            "
             onClick={() => {
               const { gl, scene, camera } = renderer;
 
