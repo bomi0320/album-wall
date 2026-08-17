@@ -1,5 +1,6 @@
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useThree } from '@react-three/fiber';
 import { useState, useEffect } from 'react';
+import { WebGLRenderer } from 'three';
 
 import Room from './scene/Room';
 import AlbumInfoPanel from './scene/AlbumInfoPanel';
@@ -13,6 +14,20 @@ import { MAX_ALBUMS } from './scene/layout';
 
 import './App.css';
 
+function GalleryCanvasCapture({
+  onReady,
+}: {
+  onReady: (gl: WebGLRenderer) => void;
+}) {
+  const { gl } = useThree();
+
+  useEffect(() => {
+    onReady(gl);
+  }, [gl, onReady]);
+
+  return null;
+}
+
 function App() {
   const [albums, setAlbums] = useState<Album[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,6 +36,8 @@ function App() {
   const [hasSearched, setHasSearched] = useState(false);
   const [isAlbumInfoOpen, setIsAlbumInfoOpen] =
     useState(true);
+  const [renderer, setRenderer] =
+    useState<WebGLRenderer | null>(null);
 
   const ALBUMS_PER_PAGE = 12;
 
@@ -194,6 +211,7 @@ function App() {
 
         <Canvas
           shadows
+          gl={{ preserveDrawingBuffer: true }}
           camera={{
             position: [10, 5, 10],
             fov: 65,
@@ -205,7 +223,31 @@ function App() {
             selectedSlotIndex={selectedSlotIndex}
             onSelectSlot={handleSelectSlot}
           />
+
+          <GalleryCanvasCapture onReady={setRenderer} />
         </Canvas>
+
+        {renderer && (
+          <button
+            type="button"
+            className="save-gallery-button"
+            onClick={() => {
+              const canvas = renderer.domElement;
+
+              const image = canvas.toDataURL(
+                'image/jpeg',
+                0.9,
+              );
+
+              const link = document.createElement('a');
+              link.download = 'album-wall.jpg';
+              link.href = image;
+              link.click();
+            }}
+          >
+            갤러리 저장
+          </button>
+        )}
       </div>
 
       {isAlbumInfoOpen && (
