@@ -7,7 +7,7 @@ export default function Floor() {
     >
       <planeGeometry args={[12, 12]} />
 
-      <meshStandardMaterial color="#c7c7c7" />
+      <meshStandardMaterial color="#E8E0E3" />
     </mesh>
   );
 }

@@ -8,7 +8,7 @@ export default function Walls() {
         rotation={[0, Math.PI / 2, 0]}
       >
         <boxGeometry args={[12, 5, 0.2]} />
-        <meshStandardMaterial color="white" />
+        <meshStandardMaterial color="#F4EFF2" />
       </mesh>
 
       {/* Right Wall */}
@@ -17,7 +17,7 @@ export default function Walls() {
         position={[0, 2, -6]}
       >
         <boxGeometry args={[12, 5, 0.2]} />
-        <meshStandardMaterial color="white" />
+        <meshStandardMaterial color="#F4EFF2" />
       </mesh>
     </>
   );
