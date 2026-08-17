@@ -113,3 +113,13 @@
   color: #9a7bb5;
   font-weight: 500;
 }
+
+.search-results-empty {
+  margin: 0;
+  padding: 40px 0;
+
+  color: #999;
+
+  font-size: 13px;
+  text-align: center;
+}

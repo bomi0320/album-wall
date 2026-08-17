@@ -6,16 +6,27 @@ type AlbumInfoPanelProps = {
   album: Album | null;
   onDelete: (albumId: number) => void;
   onDeleteAll: () => void;
+  onClose: () => void;
 };
 
 export default function AlbumInfoPanel({
   album,
   onDelete,
   onDeleteAll,
+  onClose,
 }: AlbumInfoPanelProps) {
   return (
     <div className="album-panel">
       <h2>Album Information</h2>
+
+      <button
+        className="album-panel-close"
+        type="button"
+        onClick={onClose}
+        aria-label="앨범 정보 닫기"
+      >
+        ×
+      </button>
 
       {!album ? (
         <p className="album-panel-empty">

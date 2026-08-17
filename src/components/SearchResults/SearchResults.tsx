@@ -10,6 +10,7 @@ type SearchResultsProps = {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  hasSearched: boolean;
 };
 
 export default function SearchResults({
@@ -19,9 +20,24 @@ export default function SearchResults({
   currentPage,
   totalPages,
   onPageChange,
+  hasSearched,
 }: SearchResultsProps) {
   if (albums.length === 0) {
-    return null;
+    if (!hasSearched) {
+      return null;
+    }
+
+    return (
+      <div className="search-results">
+        <p className="search-results-title">
+          Search Results
+        </p>
+
+        <p className="search-results-empty">
+          검색 결과가 없습니다.
+        </p>
+      </div>
+    );
   }
 
   return (

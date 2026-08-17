@@ -134,3 +134,37 @@
   background: #f5f5f5;
   color: #d44;
 }
+
+.album-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.album-panel-header h2 {
+  margin: 0;
+}
+
+.album-panel-close {
+  width: auto !important;
+
+  padding: 2px 6px !important;
+
+  border: none;
+
+  background: transparent;
+
+  color: #999;
+
+  font-size: 22px !important;
+  font-weight: 400 !important;
+
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.album-panel-close:hover {
+  background: transparent;
+  color: #555;
+}

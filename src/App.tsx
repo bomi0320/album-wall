@@ -18,6 +18,9 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
+  const [isAlbumInfoOpen, setIsAlbumInfoOpen] =
+    useState(true);
 
   const ALBUMS_PER_PAGE = 12;
 
@@ -85,6 +88,7 @@ function App() {
 
   const handleSearch = async (query: string) => {
     setIsLoading(true);
+    setHasSearched(true);
 
     try {
       const result = await searchAlbums(query);
@@ -104,6 +108,7 @@ function App() {
   const handleSelectSlot = (index: number) => {
     setSelectedSlotIndex(index);
     setSelectedAlbum(null);
+    setIsAlbumInfoOpen(true);
   };
 
   const handleSelectAlbum = (album: Album) => {
@@ -132,6 +137,7 @@ function App() {
 
     setSelectedAlbum(album);
     setSelectedSlotIndex(null);
+    setIsAlbumInfoOpen(true);
   };
 
   const handleDeleteAlbum = (albumId: number) => {
@@ -164,6 +170,10 @@ function App() {
     setSelectedSlotIndex(null);
   };
 
+  const handleCloseAlbumInfo = () => {
+    setIsAlbumInfoOpen(false);
+  };
+
   return (
     <div className="app">
       <div className="canvas-container">
@@ -179,6 +189,7 @@ function App() {
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePageChange}
+          hasSearched={hasSearched}
         />
 
         <Canvas
@@ -197,11 +208,14 @@ function App() {
         </Canvas>
       </div>
 
-      <AlbumInfoPanel
-        album={selectedAlbum}
-        onDelete={handleDeleteAlbum}
-        onDeleteAll={handleDeleteAllAlbums}
-      />
+      {isAlbumInfoOpen && (
+        <AlbumInfoPanel
+          album={selectedAlbum}
+          onDelete={handleDeleteAlbum}
+          onDeleteAll={handleDeleteAllAlbums}
+          onClose={handleCloseAlbumInfo}
+        />
+      )}
     </div>
   );
 }
