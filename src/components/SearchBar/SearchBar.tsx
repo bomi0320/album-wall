@@ -4,10 +4,12 @@ import './SearchBar.css';
 
 type SearchBarProps = {
   onSearch: (query: string) => void;
+  isLoading: boolean;
 };
 
 export default function SearchBar({
   onSearch,
+  isLoading,
 }: SearchBarProps) {
   const [query, setQuery] = useState('');
 
@@ -36,7 +38,9 @@ export default function SearchBar({
         }}
         placeholder="앨범 또는 아티스트 검색"
       />
-      <button type="submit">검색</button>
+      <button type="submit">
+        {isLoading ? '검색 중...' : '검색'}
+      </button>
     </form>
   );
 }

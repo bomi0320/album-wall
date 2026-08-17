@@ -17,6 +17,8 @@ function App() {
   const [albums, setAlbums] = useState<Album[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
   const ALBUMS_PER_PAGE = 12;
 
   const [selectedAlbums, setSelectedAlbums] = useState<
@@ -82,6 +84,8 @@ function App() {
   };
 
   const handleSearch = async (query: string) => {
+    setIsLoading(true);
+
     try {
       const result = await searchAlbums(query);
 
@@ -92,6 +96,8 @@ function App() {
       console.log(result);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -161,7 +167,10 @@ function App() {
   return (
     <div className="app">
       <div className="canvas-container">
-        <SearchBar onSearch={handleSearch} />
+        <SearchBar
+          onSearch={handleSearch}
+          isLoading={isLoading}
+        />
 
         <SearchResults
           albums={visibleAlbums}
