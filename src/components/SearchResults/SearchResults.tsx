@@ -1,8 +1,6 @@
 import type { Album } from '../../types/album';
 import Pagination from '../Pagination/Pagination';
 
-import './SearchResults.css';
-
 type SearchResultsProps = {
   albums: Album[];
   selectedAlbums: (Album | null)[];
@@ -28,12 +26,37 @@ export default function SearchResults({
     }
 
     return (
-      <div className="search-results">
-        <p className="search-results-title">
+      <div
+        className="
+          fixed left-6 top-[84px] z-10
+          flex w-[360px] flex-col
+          rounded-2xl
+          border border-gallery-border
+          bg-gallery-panel/95
+          p-4
+          shadow-gallery
+          backdrop-blur-md
+          max-h-[calc(100vh-108px)]
+          overflow-hidden
+        "
+      >
+        <p
+          className="
+            mb-3 px-1
+            text-xs font-medium uppercase tracking-[0.12em]
+            text-text-secondary
+          "
+        >
           Search Results
         </p>
 
-        <p className="search-results-empty">
+        <p
+          className="
+            py-10
+            text-center text-sm
+            text-text-muted
+          "
+        >
           검색 결과가 없습니다.
         </p>
       </div>
@@ -41,10 +64,38 @@ export default function SearchResults({
   }
 
   return (
-    <div className="search-results">
-      <p className="search-results-title">Search Results</p>
+    <div
+      className="
+        fixed left-6 top-[84px] z-10
+        flex w-[360px] flex-col
+        rounded-2xl
+        border border-gallery-border
+        bg-gallery-panel/95
+        p-4
+        shadow-gallery
+        backdrop-blur-md
+        max-h-[calc(100vh-108px)]
+        overflow-hidden
+      "
+    >
+      <p
+        className="
+          mb-3 px-1
+          text-xs font-medium uppercase tracking-[0.12em]
+          text-text-secondary
+        "
+      >
+        Search Results
+      </p>
 
-      <div className="search-results-list">
+      <div
+        className="
+          flex max-h-[500px] flex-1
+          flex-col gap-2
+          overflow-y-auto
+          pr-1
+        "
+      >
         {albums.map((album) => {
           const isDisplayed = selectedAlbums.some(
             (selectedAlbum) =>
@@ -54,23 +105,61 @@ export default function SearchResults({
           return (
             <button
               key={album.id}
-              className="search-result-card"
+              type="button"
               onClick={() => onSelect(album)}
+              className="
+                group flex w-full items-center gap-3
+                rounded-xl p-2
+                text-left
+                transition-all duration-200
+                hover:translate-x-0.5
+                hover:bg-primary-soft/50
+              "
             >
               <img
                 src={album.image}
                 alt={`${album.artist} - ${album.title}`}
+                className="
+                  h-14 w-14 shrink-0
+                  rounded-lg
+                  object-cover
+                  shadow-sm
+                "
               />
 
-              <div className="search-result-info">
-                <h3>{album.title}</h3>
+              <div className="min-w-0 flex-1">
+                <h3
+                  className="
+                    mb-1 truncate
+                    text-sm font-semibold
+                    text-text-primary
+                  "
+                >
+                  {album.title}
+                </h3>
 
-                <p>{album.artist}</p>
+                <p
+                  className="
+                    mb-1 truncate
+                    text-xs
+                    text-text-secondary
+                  "
+                >
+                  {album.artist}
+                </p>
 
-                <span>{album.year}</span>
+                <span className="text-xs text-text-muted">
+                  {album.year}
+                </span>
 
                 {isDisplayed && (
-                  <span className="already-displayed">
+                  <span
+                    className="
+                      mt-1 block
+                      text-[11px] font-medium
+                      text-primary
+                    "
+                  >
                     이미 전시됨
                   </span>
                 )}
