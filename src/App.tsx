@@ -220,8 +220,8 @@ function App() {
           shadows
           gl={{ preserveDrawingBuffer: true }}
           camera={{
-            position: [10, 5, 10],
-            fov: 65,
+            position: [7, 4, 7],
+            fov: 55,
           }}
         >
           <Room
