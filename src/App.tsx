@@ -55,15 +55,16 @@ function App() {
       'selectedAlbums',
     );
 
+    // 처음 방문한 경우: 빈 액자 12개 생성
     if (!savedAlbums) {
-      return [];
+      return Array(MAX_ALBUMS).fill(null);
     }
 
     try {
       const parsedAlbums = JSON.parse(savedAlbums);
 
       if (!Array.isArray(parsedAlbums)) {
-        return [];
+        return Array(MAX_ALBUMS).fill(null);
       }
 
       return [
@@ -78,7 +79,7 @@ function App() {
         error,
       );
 
-      return [];
+      return Array(MAX_ALBUMS).fill(null);
     }
   });
 
