@@ -1,6 +1,3 @@
-import express from 'express';
-import cors from 'cors';
-
 type ITunesAlbum = {
   collectionId: number;
   collectionName: string;
@@ -24,23 +21,17 @@ type Album = {
   appleMusicUrl: string;
 };
 
-const app = express();
+export default async function handler(req: Request) {
+  const url = new URL(req.url);
+  const query = url.searchParams.get('query');
 
-app.use(cors());
-
-app.get('/test', (_req, res) => {
-  res.json({
-    message: 'Backend is working',
-  });
-});
-
-app.get('/albums', async (req, res) => {
-  const query = req.query.query;
-
-  if (typeof query !== 'string' || !query.trim()) {
-    return res.status(400).json({
-      message: '검색어를 입력해주세요.',
-    });
+  if (!query?.trim()) {
+    return Response.json(
+      {
+        message: '검색어를 입력해주세요.',
+      },
+      { status: 400 },
+    );
   }
 
   const limit = 200;
@@ -58,6 +49,12 @@ app.get('/albums', async (req, res) => {
       `https://itunes.apple.com/search?${params.toString()}`,
     );
 
+    if (!response.ok) {
+      throw new Error(
+        `iTunes API error: ${response.status}`,
+      );
+    }
+
     const data =
       (await response.json()) as ITunesSearchResponse;
 
@@ -73,17 +70,18 @@ app.get('/albums', async (req, res) => {
       appleMusicUrl: item.collectionViewUrl,
     }));
 
-    res.json({
+    return Response.json({
       albums,
       total: data.resultCount,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
-    res.status(500).json({
-      message: 'iTunes API 요청에 실패했습니다.',
-    });
+    return Response.json(
+      {
+        message: 'iTunes API 요청에 실패했습니다.',
+      },
+      { status: 500 },
+    );
   }
-});
-
-export default app;
+}
