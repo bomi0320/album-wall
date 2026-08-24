@@ -28,13 +28,13 @@ const app = express();
 
 app.use(cors());
 
-app.get('/api/test', (_req, res) => {
+app.get('/test', (_req, res) => {
   res.json({
     message: 'Backend is working',
   });
 });
 
-app.get('/api/albums', async (req, res) => {
+app.get('/albums', async (req, res) => {
   const query = req.query.query;
 
   if (typeof query !== 'string' || !query.trim()) {
