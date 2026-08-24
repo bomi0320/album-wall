@@ -9,7 +9,7 @@ export async function searchAlbums(
   query: string,
 ): Promise<SearchAlbumsResponse> {
   const response = await fetch(
-    `http://localhost:3001/api/albums?query=${encodeURIComponent(query)}`,
+    `/api/albums?query=${encodeURIComponent(query)}`,
   );
 
   if (!response.ok) {
