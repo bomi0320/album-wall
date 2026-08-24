@@ -21,8 +21,8 @@ type Album = {
   appleMusicUrl: string;
 };
 
-export default async function handler(req: Request) {
-  const url = new URL(req.url);
+export async function GET(request: Request) {
+  const url = new URL(request.url);
   const query = url.searchParams.get('query');
 
   if (!query?.trim()) {
