@@ -13,6 +13,7 @@ import type { Album } from './types/album';
 import { MAX_ALBUMS } from './scene/layout';
 
 import './App.css';
+import CoachMark from './components/CoachMark/CoachMark';
 
 function GalleryCanvasCapture({
   onReady,
@@ -40,6 +41,18 @@ function App() {
   const [hasSearched, setHasSearched] = useState(false);
   const [isAlbumInfoOpen, setIsAlbumInfoOpen] =
     useState(true);
+
+  const [isCoachMarkOpen, setIsCoachMarkOpen] = useState(
+    () => {
+      return (
+        localStorage.getItem('coachMarkCompleted') !==
+        'true'
+      );
+    },
+  );
+
+  const [coachMarkStep, setCoachMarkStep] = useState(0);
+
   const [renderer, setRenderer] = useState<{
     gl: WebGLRenderer;
     scene: Scene;
@@ -107,6 +120,12 @@ function App() {
     startIndex + ALBUMS_PER_PAGE,
   );
 
+  const handleCloseCoachMark = () => {
+    localStorage.setItem('coachMarkCompleted', 'true');
+
+    setIsCoachMarkOpen(false);
+  };
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
@@ -122,6 +141,16 @@ function App() {
       setTotalResults(result.total);
       setCurrentPage(1);
 
+      // Coach Mark 1단계
+      // 실제 검색 결과가 있을 때만 2단계로 이동
+      if (
+        isCoachMarkOpen &&
+        coachMarkStep === 0 &&
+        result.albums.length > 0
+      ) {
+        setCoachMarkStep(1);
+      }
+
       console.log(result);
     } catch (error) {
       console.log(error);
@@ -134,6 +163,11 @@ function App() {
     setSelectedSlotIndex(index);
     setSelectedAlbum(null);
     setIsAlbumInfoOpen(true);
+
+    // Coach Mark 2단계: 액자 선택 완료 → 3단계로 이동
+    if (isCoachMarkOpen && coachMarkStep === 1) {
+      setCoachMarkStep(2);
+    }
   };
 
   const handleSelectAlbum = (album: Album) => {
@@ -163,6 +197,11 @@ function App() {
     setSelectedAlbum(album);
     setSelectedSlotIndex(null);
     setIsAlbumInfoOpen(true);
+
+    // Coach Mark 3단계: 앨범 전시 완료 -> 튜토리얼 종료
+    if (isCoachMarkOpen && coachMarkStep === 2) {
+      handleCloseCoachMark();
+    }
   };
 
   const handleDeleteAlbum = (albumId: number) => {
@@ -205,6 +244,9 @@ function App() {
         <SearchBar
           onSearch={handleSearch}
           isLoading={isLoading}
+          isCoachMarkTarget={
+            isCoachMarkOpen && coachMarkStep === 0
+          }
         />
 
         <SearchResults
@@ -215,6 +257,9 @@ function App() {
           totalPages={totalPages}
           onPageChange={handlePageChange}
           hasSearched={hasSearched}
+          isCoachMarkTarget={
+            isCoachMarkOpen && coachMarkStep === 2
+          }
         />
 
         <Canvas
@@ -292,6 +337,13 @@ function App() {
           onDelete={handleDeleteAlbum}
           onDeleteAll={handleDeleteAllAlbums}
           onClose={handleCloseAlbumInfo}
+        />
+      )}
+
+      {isCoachMarkOpen && (
+        <CoachMark
+          step={coachMarkStep}
+          onClose={handleCloseCoachMark}
         />
       )}
     </div>

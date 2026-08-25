@@ -3,11 +3,13 @@ import { useState } from 'react';
 type SearchBarProps = {
   onSearch: (query: string) => void;
   isLoading: boolean;
+  isCoachMarkTarget: boolean;
 };
 
 export default function SearchBar({
   onSearch,
   isLoading,
+  isCoachMarkTarget,
 }: SearchBarProps) {
   const [query, setQuery] = useState('');
 
@@ -25,13 +27,15 @@ export default function SearchBar({
 
   return (
     <form
-      className="
-        fixed left-6 top-6 z-20
+      id="coach-search"
+      className={`        
+        fixed left-6 top-6
+        ${isCoachMarkTarget ? 'z-[110]' : 'z-50'}
         flex w-[360px] items-center gap-2
         rounded-2xl border border-gallery-border
         bg-gallery-panel/95 p-1.5
         shadow-gallery backdrop-blur-md
-      "
+      `}
       onSubmit={handleSubmit}
     >
       <input

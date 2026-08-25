@@ -9,6 +9,7 @@ type SearchResultsProps = {
   totalPages: number;
   onPageChange: (page: number) => void;
   hasSearched: boolean;
+  isCoachMarkTarget: boolean;
 };
 
 export default function SearchResults({
@@ -19,6 +20,7 @@ export default function SearchResults({
   totalPages,
   onPageChange,
   hasSearched,
+  isCoachMarkTarget,
 }: SearchResultsProps) {
   if (albums.length === 0) {
     if (!hasSearched) {
@@ -27,8 +29,10 @@ export default function SearchResults({
 
     return (
       <div
-        className="
-          fixed left-6 top-[84px] z-10
+        id="coach-search-results"
+        className={`
+          fixed left-6 top-[84px]
+          ${isCoachMarkTarget ? 'z-[110]' : 'z-50'}
           flex w-[360px] flex-col
           rounded-2xl
           border border-gallery-border
@@ -38,7 +42,7 @@ export default function SearchResults({
           backdrop-blur-md
           max-h-[calc(100vh-108px)]
           overflow-hidden
-        "
+        `}
       >
         <p
           className="
@@ -65,8 +69,9 @@ export default function SearchResults({
 
   return (
     <div
-      className="
-        fixed left-6 top-[84px] z-10
+      className={`
+        fixed left-6 top-[84px] 
+        ${isCoachMarkTarget ? 'z-[110]' : 'z-50'}
         flex w-[360px] flex-col
         rounded-2xl
         border border-gallery-border
@@ -76,7 +81,7 @@ export default function SearchResults({
         backdrop-blur-md
         max-h-[calc(100vh-108px)]
         overflow-hidden
-      "
+      `}
     >
       <p
         className="
