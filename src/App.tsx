@@ -41,6 +41,7 @@ function App() {
   const [hasSearched, setHasSearched] = useState(false);
   const [isAlbumInfoOpen, setIsAlbumInfoOpen] =
     useState(true);
+  const [isSearchOpen, setIsSearchOpen] = useState(true);
 
   const [isCoachMarkOpen, setIsCoachMarkOpen] = useState(
     () => {
@@ -247,20 +248,24 @@ function App() {
           isCoachMarkTarget={
             isCoachMarkOpen && coachMarkStep === 0
           }
+          isOpen={isSearchOpen}
+          onToggle={() => setIsSearchOpen((prev) => !prev)}
         />
 
-        <SearchResults
-          albums={visibleAlbums}
-          selectedAlbums={selectedAlbums}
-          onSelect={handleSelectAlbum}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-          hasSearched={hasSearched}
-          isCoachMarkTarget={
-            isCoachMarkOpen && coachMarkStep === 2
-          }
-        />
+        {isSearchOpen && (
+          <SearchResults
+            albums={visibleAlbums}
+            selectedAlbums={selectedAlbums}
+            onSelect={handleSelectAlbum}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            hasSearched={hasSearched}
+            isCoachMarkTarget={
+              isCoachMarkOpen && coachMarkStep === 2
+            }
+          />
+        )}
 
         <Canvas
           shadows
