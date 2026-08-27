@@ -6,6 +6,7 @@ import Room from './scene/Room';
 import AlbumInfoPanel from './scene/AlbumInfoPanel';
 import SearchBar from './components/SearchBar/SearchBar';
 import SearchResults from './components/SearchResults/SearchResults';
+import AlertModal from './components/AlertModal/AlertModal';
 
 import { searchAlbums } from './api/albums';
 import type { Album } from './types/album';
@@ -42,6 +43,11 @@ function App() {
   const [isAlbumInfoOpen, setIsAlbumInfoOpen] =
     useState(true);
   const [isSearchOpen, setIsSearchOpen] = useState(true);
+  const [alertModal, setAlertModal] = useState<{
+    message: string;
+    type: 'alert' | 'confirm';
+    onConfirm?: () => void;
+  } | null>(null);
 
   const [isCoachMarkOpen, setIsCoachMarkOpen] = useState(
     () => {
@@ -178,13 +184,19 @@ function App() {
     );
 
     if (alreadyExists) {
-      alert('이미 추가된 앨범입니다.');
+      setAlertModal({
+        message: '이미 추가된 앨범입니다.',
+        type: 'alert',
+      });
       return;
     }
 
     // 액자를 선택하지 않은 경우
     if (selectedSlotIndex === null) {
-      alert('액자를 먼저 선택하세요.');
+      setAlertModal({
+        message: '액자를 먼저 선택하세요.',
+        type: 'alert',
+      });
       return;
     }
 
@@ -221,18 +233,15 @@ function App() {
   };
 
   const handleDeleteAllAlbums = () => {
-    const confirmed = window.confirm(
-      '모든 앨범을 삭제하시겠습니까?',
-    );
-
-    if (!confirmed) {
-      return;
-    }
-
-    setSelectedAlbums(Array(MAX_ALBUMS).fill(null));
-
-    setSelectedAlbum(null);
-    setSelectedSlotIndex(null);
+    setAlertModal({
+      message: '모든 앨범을 삭제하시겠습니까?',
+      type: 'confirm',
+      onConfirm: () => {
+        setSelectedAlbums(Array(MAX_ALBUMS).fill(null));
+        setSelectedAlbum(null);
+        setSelectedSlotIndex(null);
+      },
+    });
   };
 
   const handleCloseAlbumInfo = () => {
@@ -354,6 +363,15 @@ function App() {
         <CoachMark
           step={coachMarkStep}
           onClose={handleCloseCoachMark}
+        />
+      )}
+
+      {alertModal && (
+        <AlertModal
+          message={alertModal.message}
+          type={alertModal.type}
+          onClose={() => setAlertModal(null)}
+          onConfirm={alertModal.onConfirm}
         />
       )}
     </div>
