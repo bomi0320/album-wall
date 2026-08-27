@@ -1,5 +1,5 @@
 import { Canvas, useThree } from '@react-three/fiber';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { WebGLRenderer, Scene, Camera } from 'three';
 
 import Room from './scene/Room';
@@ -239,6 +239,13 @@ function App() {
     setIsAlbumInfoOpen(false);
   };
 
+  const handleRendererReady = useCallback(
+    (gl: WebGLRenderer, scene: Scene, camera: Camera) => {
+      setRenderer({ gl, scene, camera });
+    },
+    [],
+  );
+
   return (
     <div className="app">
       <div className="canvas-container">
@@ -283,9 +290,7 @@ function App() {
           />
 
           <GalleryCanvasCapture
-            onReady={(gl, scene, camera) => {
-              setRenderer({ gl, scene, camera });
-            }}
+            onReady={handleRendererReady}
           />
         </Canvas>
 
