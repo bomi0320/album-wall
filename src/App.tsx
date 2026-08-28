@@ -15,6 +15,7 @@ import { MAX_ALBUMS } from './scene/layout';
 
 import './App.css';
 import CoachMark from './components/CoachMark/CoachMark';
+import NameInput from './components/NameInput/NameInput';
 
 function GalleryCanvasCapture({
   onReady,
@@ -48,6 +49,11 @@ function App() {
     type: 'alert' | 'confirm';
     onConfirm?: () => void;
   } | null>(null);
+  const [userName, setUserName] = useState<string>(() => {
+    return localStorage.getItem('userName') ?? '';
+  });
+  const [isNameSubmitted, setIsNameSubmitted] =
+    useState(false);
 
   const [isCoachMarkOpen, setIsCoachMarkOpen] = useState(
     () => {
@@ -126,6 +132,12 @@ function App() {
     startIndex,
     startIndex + ALBUMS_PER_PAGE,
   );
+
+  const handleEnterGallery = (name: string) => {
+    localStorage.setItem('userName', name);
+    setUserName(name);
+    setIsNameSubmitted(true);
+  };
 
   const handleCloseCoachMark = () => {
     localStorage.setItem('coachMarkCompleted', 'true');
@@ -255,6 +267,32 @@ function App() {
     [],
   );
 
+  if (!isNameSubmitted) {
+    return (
+      <>
+        <NameInput
+          initialName={userName}
+          onEnter={handleEnterGallery}
+          onAlert={(message) => {
+            setAlertModal({
+              message,
+              type: 'alert',
+            });
+          }}
+        />
+
+        {alertModal && (
+          <AlertModal
+            message={alertModal.message}
+            type={alertModal.type}
+            onClose={() => setAlertModal(null)}
+            onConfirm={alertModal.onConfirm}
+          />
+        )}
+      </>
+    );
+  }
+
   return (
     <div className="app">
       <div className="canvas-container">
@@ -282,6 +320,21 @@ function App() {
             }
           />
         )}
+
+        <h1
+          className="
+            pointer-events-none
+            fixed left-1/2 top-6
+            z-30
+            -translate-x-1/2
+            whitespace-nowrap
+            text-xl font-semibold
+            tracking-tight
+            text-text-primary
+          "
+        >
+          {userName}의 음악 갤러리
+        </h1>
 
         <Canvas
           shadows
