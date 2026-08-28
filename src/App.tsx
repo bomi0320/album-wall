@@ -1,6 +1,6 @@
 import { Canvas, useThree } from '@react-three/fiber';
 import { useState, useEffect, useCallback } from 'react';
-import { WebGLRenderer, Scene, Camera } from 'three';
+import { WebGLRenderer, Scene, Camera, Color } from 'three';
 
 import Room from './scene/Room';
 import AlbumInfoPanel from './scene/AlbumInfoPanel';
@@ -338,7 +338,13 @@ function App() {
 
         <Canvas
           shadows
-          gl={{ preserveDrawingBuffer: true }}
+          gl={{
+            preserveDrawingBuffer: true,
+            alpha: true,
+          }}
+          scene={{
+            background: new Color('#F8F5F2'),
+          }}
           camera={{
             position: [7, 4, 7],
             fov: 55,
@@ -380,22 +386,80 @@ function App() {
               const originalPixelRatio = gl.getPixelRatio();
 
               gl.setPixelRatio(2);
-
               gl.render(scene, camera);
 
-              const image = gl.domElement.toDataURL(
+              // Three.js Canvas 이미지
+              const galleryImage = gl.domElement.toDataURL(
                 'image/jpeg',
                 0.95,
               );
 
-              gl.setPixelRatio(originalPixelRatio);
+              // 이미지 로드
+              const image = new Image();
 
-              gl.render(scene, camera);
+              image.onload = () => {
+                // 저장용 Canvas
+                const canvas =
+                  document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
 
-              const link = document.createElement('a');
-              link.download = 'album-wall.jpg';
-              link.href = image;
-              link.click();
+                if (!ctx) {
+                  return;
+                }
+
+                const titleHeight = 120;
+
+                canvas.width = image.width;
+                canvas.height = image.height + titleHeight;
+
+                // 배경
+                ctx.fillStyle = '#f8f8f8';
+                ctx.fillRect(
+                  0,
+                  0,
+                  canvas.width,
+                  canvas.height,
+                );
+
+                // 제목
+                ctx.fillStyle = '#222222';
+                ctx.font = '600 50px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+
+                ctx.fillText(
+                  `${userName}의 음악 갤러리`,
+                  canvas.width / 2,
+                  titleHeight / 2,
+                );
+
+                // 3D 갤러리 이미지
+                ctx.drawImage(
+                  image,
+                  0,
+                  titleHeight,
+                  image.width,
+                  image.height,
+                );
+
+                // 최종 이미지
+                const finalImage = canvas.toDataURL(
+                  'image/jpeg',
+                  0.95,
+                );
+
+                // 다운로드
+                const link = document.createElement('a');
+                link.download = 'album-wall.jpg';
+                link.href = finalImage;
+                link.click();
+
+                // 기존 설정 복구
+                gl.setPixelRatio(originalPixelRatio);
+                gl.render(scene, camera);
+              };
+
+              image.src = galleryImage;
             }}
           >
             갤러리 저장
