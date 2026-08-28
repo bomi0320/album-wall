@@ -450,7 +450,12 @@ function App() {
 
                 // 다운로드
                 const link = document.createElement('a');
-                link.download = 'album-wall.jpg';
+
+                const safeUserName = userName.replace(
+                  /[\\/:*?"<>|]/g,
+                  '',
+                );
+                link.download = `${safeUserName}의_음악_갤러리.jpg`;
                 link.href = finalImage;
                 link.click();
 
