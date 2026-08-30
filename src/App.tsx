@@ -54,6 +54,15 @@ function App() {
       window.matchMedia('(orientation: portrait)').matches,
   );
 
+  const [isPortraitNoticeOpen, setIsPortraitNoticeOpen] =
+    useState(
+      () =>
+        window.matchMedia('(orientation: portrait)')
+          .matches &&
+        localStorage.getItem('portraitNoticeDismissed') !==
+          'true',
+    );
+
   useEffect(() => {
     const mediaQuery = window.matchMedia(
       '(orientation:portrait)',
@@ -66,6 +75,14 @@ function App() {
 
       if (event.matches) {
         setIsAlbumInfoOpen(false);
+      }
+
+      if (
+        event.matches &&
+        localStorage.getItem('portraitNoticeDismissed') !==
+          'true'
+      ) {
+        setIsPortraitNoticeOpen(true);
       }
     };
 
@@ -181,6 +198,12 @@ function App() {
     localStorage.setItem('coachMarkCompleted', 'true');
 
     setIsCoachMarkOpen(false);
+  };
+
+  const handleClosePortraitNotice = () => {
+    localStorage.setItem('portraitNoticeDismissed', 'true');
+
+    setIsPortraitNoticeOpen(false);
   };
 
   const handlePageChange = (page: number) => {
@@ -347,6 +370,41 @@ function App() {
   return (
     <div className="app">
       <div className="canvas-container">
+        {isPortraitNoticeOpen && (
+          <div
+            className="
+              fixed left-1/2 top-[84px] z-[100]
+              flex -translate-x-1/2 items-center gap-3
+              rounded-xl
+              border border-gallery-border
+              bg-gallery-panel/95
+              px-4 py-3
+              text-sm text-text-secondary
+              shadow-gallery
+              backdrop-blur-md
+            "
+          >
+            <p className="whitespace-nowrap">
+              가로 화면에서 더 편하게 볼 수 있어요.
+            </p>
+
+            <button
+              type="button"
+              onClick={handleClosePortraitNotice}
+              className="
+                shrink-0
+                text-lg leading-none
+                text-text-muted
+                transition-colors
+                hover:text-text-primary
+              "
+              aria-label="안내 닫기"
+            >
+              ×
+            </button>
+          </div>
+        )}
+
         <SearchBar
           onSearch={handleSearch}
           isLoading={isLoading}
