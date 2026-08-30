@@ -423,7 +423,7 @@ function App() {
 
                 // 제목
                 ctx.fillStyle = '#222222';
-                ctx.font = '600 50px sans-serif';
+                ctx.font = '600 50px "Pretendard Variable"';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
 

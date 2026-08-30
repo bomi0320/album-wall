@@ -33,11 +33,11 @@ body {
   overflow: hidden;
 
   font-family:
-    Inter,
-    system-ui,
+    'Pretendard Variable',
+    Pretendard,
     -apple-system,
     BlinkMacSystemFont,
-    'Segoe UI',
+    system-ui,
     sans-serif;
 }
 
