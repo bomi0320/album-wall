@@ -29,7 +29,7 @@ export default function AlbumInfoPanel({
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="text-base font-semibold text-text-primary">
-          Album Information
+          앨범 정보
         </h2>
 
         <button
