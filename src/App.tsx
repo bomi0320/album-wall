@@ -41,9 +41,47 @@ function App() {
   const [totalResults, setTotalResults] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
-  const [isAlbumInfoOpen, setIsAlbumInfoOpen] =
-    useState(true);
+
+  const [isAlbumInfoOpen, setIsAlbumInfoOpen] = useState(
+    () =>
+      !window.matchMedia('(orientation: portrait)').matches,
+  );
+
   const [isSearchOpen, setIsSearchOpen] = useState(true);
+
+  const [isPortrait, setIsPortrait] = useState(
+    () =>
+      window.matchMedia('(orientation: portrait)').matches,
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(
+      '(orientation:portrait)',
+    );
+
+    const handleOrientationChange = (
+      event: MediaQueryListEvent,
+    ) => {
+      setIsPortrait(event.matches);
+
+      if (event.matches) {
+        setIsAlbumInfoOpen(false);
+      }
+    };
+
+    mediaQuery.addEventListener(
+      'change',
+      handleOrientationChange,
+    );
+
+    return () => {
+      mediaQuery.removeEventListener(
+        'change',
+        handleOrientationChange,
+      );
+    };
+  }, []);
+
   const [alertModal, setAlertModal] = useState<{
     message: string;
     type: 'alert' | 'confirm';
@@ -189,6 +227,15 @@ function App() {
     }
   };
 
+  const handleSelectDisplayedAlbum = (album: Album) => {
+    setSelectedAlbum(album);
+    setIsAlbumInfoOpen(true);
+
+    if (isPortrait) {
+      setIsSearchOpen(false);
+    }
+  };
+
   const handleSelectAlbum = (album: Album) => {
     // 같은 앨범 중복 추가 방지
     const alreadyExists = selectedAlbums.some(
@@ -222,6 +269,10 @@ function App() {
     setSelectedAlbum(album);
     setSelectedSlotIndex(null);
     setIsAlbumInfoOpen(true);
+
+    if (isPortrait) {
+      setIsSearchOpen(false);
+    }
 
     // Coach Mark 3단계: 앨범 전시 완료 -> 튜토리얼 종료
     if (isCoachMarkOpen && coachMarkStep === 2) {
@@ -303,7 +354,15 @@ function App() {
             isCoachMarkOpen && coachMarkStep === 0
           }
           isOpen={isSearchOpen}
-          onToggle={() => setIsSearchOpen((prev) => !prev)}
+          onToggle={() => {
+            const nextIsSearchOpen = !isSearchOpen;
+
+            setIsSearchOpen(nextIsSearchOpen);
+
+            if (isPortrait && nextIsSearchOpen) {
+              setIsAlbumInfoOpen(false);
+            }
+          }}
         />
 
         {isSearchOpen && (
@@ -352,7 +411,7 @@ function App() {
         >
           <Room
             albums={selectedAlbums}
-            onSelect={setSelectedAlbum}
+            onSelect={handleSelectDisplayedAlbum}
             selectedSlotIndex={selectedSlotIndex}
             onSelectSlot={handleSelectSlot}
           />
